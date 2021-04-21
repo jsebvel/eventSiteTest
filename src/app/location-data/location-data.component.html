@@ -1,1 +1,57 @@
-<p>location-data works!</p>
+<div>
+  <form [formGroup]="locationForm">
+    <label><strong>Datos de ubicación</strong></label>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          Latitud *
+        </mat-label>
+        <input matInput placeholder="Latitud" formControlName="latitude" type="text">
+        <mat-error *ngIf="locationForm.get('latitude').invalid">
+          {{ getErrors('latitude') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          Longitud *
+        </mat-label>
+        <input matInput placeholder="Longitud" formControlName="longitude" type="text">
+        <mat-error *ngIf="locationForm.get('longitude').invalid">
+          {{ getErrors('longitude') }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          Dirección *
+        </mat-label>
+        <input matInput placeholder="Dirección" formControlName="address" type="text">
+        <mat-error *ngIf="locationForm.get('address').invalid">
+          {{ getErrors('address') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          Ciudad *
+        </mat-label>
+        <input matInput placeholder="Ciudad" formControlName="city_long_name" type="text">
+        <mat-error *ngIf="locationForm.get('city_long_name').invalid">
+          {{ getErrors('city_long_name') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          País *
+        </mat-label>
+        <input matInput placeholder="País" formControlName="country_long_name" type="text">
+        <mat-error *ngIf="locationForm.get('country_long_name').invalid">
+          {{ getErrors('country_long_name') }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </form>
+</div>

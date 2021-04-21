@@ -1,2 +1,11 @@
-<app-user></app-user>
-<app-customer></app-customer>
+<div style="margin: 1%;">
+  <mat-card>
+    <app-user [mainForm]="mainForm"></app-user>
+    <app-customer [mainForm]="mainForm"></app-customer>
+    <app-location-data [mainForm]="mainForm"></app-location-data>
+
+    <mat-card-actions  class="d-flex justify-content-center">
+      <button mat-stroked-button color="accent" (click)="createForm()">SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

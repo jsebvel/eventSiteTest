@@ -10,11 +10,13 @@ import { MaterialModule } from './material/material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerComponent } from './customer/customer.component';
 import { LayoutComponent } from './layout/layout.component';
-import {MatGoogleMapsAutocompleteModule} from '@angular-material-extensions/google-maps-autocomplete';
-import {AgmCoreModule} from '@agm/core';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { AgmCoreModule } from '@agm/core';
 import { LocationDataComponent } from './location-data/location-data.component';
-
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MatButtonModule } from '@angular/material/button';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -38,7 +40,10 @@ import { LocationDataComponent } from './location-data/location-data.component';
       apiKey: 'AIzaSyArUPOhtOJyjOOEpiPHG-atVtR_0cyqEOY',
       libraries: ['places']
     }),
-    MatGoogleMapsAutocompleteModule
+    MatGoogleMapsAutocompleteModule,
+    SweetAlert2Module,
+    MatButtonModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]

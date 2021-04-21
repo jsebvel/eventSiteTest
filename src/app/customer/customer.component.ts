@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../services/form.service';
 
 
@@ -9,6 +9,7 @@ import { FormService } from '../services/form.service';
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
+  @Input() mainForm;
   customerForm: FormGroup;
   patterns;
   constructor(
@@ -17,19 +18,30 @@ export class CustomerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initiForm();
+    this.initForm();
   }
 
-  initiForm() {
-    this.customerForm = this._formBuilder.group({
-      name: ['', this._formService.defaultNameValidator],
-      service_delivery: ['',],
-      service_take_away: ['',],
-      service_book: ['',],
-      service_table: ['',],
-      service_room: ['',],
-      number_of_branches: ['', Validators.required],
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.mainForm.status != 'DISABLED' && !this.mainForm.contains('customerForm')) {
+      if (!this.patterns) {
+        this.getAllPatters();
+      }
+      this.initForm();
+    }
+  }
+
+
+  initForm() {
+    this.mainForm.addControl('customerForm', this._formBuilder.group([]));
+    this.customerForm = this.mainForm.get('customerForm') as FormGroup;
+
+    this.customerForm.addControl('name', new FormControl('',Validators.compose(this._formService.defaultNameValidator)))
+    this.customerForm.addControl('service_delivery', new FormControl('',Validators.compose([])))
+    this.customerForm.addControl('service_take_away', new FormControl('',Validators.compose([])))
+    this.customerForm.addControl('service_book', new FormControl('',Validators.compose([])))
+    this.customerForm.addControl('service_table', new FormControl('',Validators.compose([])))
+    this.customerForm.addControl('service_room', new FormControl('',Validators.compose([])))
+    this.customerForm.addControl('number_of_branches', new FormControl('',Validators.compose([Validators.required])))
   }
 
   getAllPatters() {

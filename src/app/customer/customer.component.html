@@ -1,123 +1,112 @@
 <div>
-  <mat-card>
-    <form [formGroup]="customerForm">
-      <label><strong>Datos del restaurante</strong></label>
-      <div class="row">
-        <mat-form-field appearance="outline" class="col-6">
-          <mat-label>
-            Nombre del restaurante *
-          </mat-label>
-          <input matInput placeholder="Nombre del restaurarnte" formControlName="name" type="text">
-          <mat-error *ngIf="customerForm.get('name').invalid">
-            {{ getErrors('name') }}
-          </mat-error>
-        </mat-form-field>
+  <form [formGroup]="customerForm">
+    <label><strong>Datos del restaurante</strong></label>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>
+          Nombre del restaurante *
+        </mat-label>
+        <input matInput placeholder="Nombre del restaurarnte" formControlName="name" type="text">
+        <mat-error *ngIf="customerForm.get('name').invalid">
+          {{ getErrors('name') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            ¿Domicilios activos?
-          </mat-label>
-          <mat-select formControlName="service_delivery">
-            <mat-option [value]="true">
-              Sí
-            </mat-option>
-            <mat-option [value]="false">
-              No
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="customerForm.get('service_delivery').invalid">
-            {{ getErrors('service_delivery') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          ¿Domicilios activos?
+        </mat-label>
+        <mat-select formControlName="service_delivery">
+          <mat-option [value]="true">
+            Sí
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="customerForm.get('service_delivery').invalid">
+          {{ getErrors('service_delivery') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            ¿Servicio para llevar activos?
-          </mat-label>
-          <mat-select formControlName="service_take_away">
-            <mat-option [value]="true">
-              Sí
-            </mat-option>
-            <mat-option [value]="false">
-              No
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="customerForm.get('service_take_away').invalid">
-            {{ getErrors('service_take_away') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          ¿Servicio para llevar activos?
+        </mat-label>
+        <mat-select formControlName="service_take_away">
+          <mat-option [value]="true">
+            Sí
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="customerForm.get('service_take_away').invalid">
+          {{ getErrors('service_take_away') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            ¿Reservas activas?
-          </mat-label>
-          <mat-select formControlName="service_book">
-            <mat-option [value]="true">
-              Sí
-            </mat-option>
-            <mat-option [value]="false">
-              No
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="customerForm.get('service_book').invalid">
-            {{ getErrors('service_book') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          ¿Reservas activas?
+        </mat-label>
+        <mat-select formControlName="service_book">
+          <mat-option [value]="true">
+            Sí
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="customerForm.get('service_book').invalid">
+          {{ getErrors('service_book') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            ¿Servicio en mesa activo?
-          </mat-label>
-          <mat-select formControlName="service_table">
-            <mat-option [value]="true">
-              Sí
-            </mat-option>
-            <mat-option [value]="false">
-              No
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="customerForm.get('service_table').invalid">
-            {{ getErrors('service_table') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          ¿Servicio en mesa activo?
+        </mat-label>
+        <mat-select formControlName="service_table">
+          <mat-option [value]="true">
+            Sí
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="customerForm.get('service_table').invalid">
+          {{ getErrors('service_table') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            ¿Servicio al cuarto activo?
-          </mat-label>
-          <mat-select formControlName="service_room">
-            <mat-option [value]="true">
-              Sí
-            </mat-option>
-            <mat-option [value]="false">
-              No
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="customerForm.get('service_room').invalid">
-            {{ getErrors('service_room') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          ¿Servicio al cuarto activo?
+        </mat-label>
+        <mat-select formControlName="service_room">
+          <mat-option [value]="true">
+            Sí
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="customerForm.get('service_room').invalid">
+          {{ getErrors('service_room') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>
-            Número de sucursales *
-          </mat-label>
-          <input matInput placeholder="Número de sucursales" formControlName="number_of_branches" type="number" min="0">
-          <mat-error *ngIf="customerForm.get('number_of_branches').invalid">
-            {{ getErrors('number_of_branches') }}
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>
+          Número de sucursales *
+        </mat-label>
+        <input matInput placeholder="Número de sucursales" formControlName="number_of_branches" type="number" min="0">
+        <mat-error *ngIf="customerForm.get('number_of_branches').invalid">
+          {{ getErrors('number_of_branches') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-        <div class="col-6" appearance="outline">
-          <mat-google-maps-autocomplete formControlName="address">
-          </mat-google-maps-autocomplete>
-
-        </div>
-
-
-      </div>
-
-    </form>
-
-  </mat-card>
+  </form>
 </div>

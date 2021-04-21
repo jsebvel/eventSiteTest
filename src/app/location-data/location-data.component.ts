@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../services/form.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormService } from '../services/form.service';
   styleUrls: ['./location-data.component.scss']
 })
 export class LocationDataComponent implements OnInit {
+  @Input() mainForm;
   locationForm: FormGroup;
   patterns;
 
@@ -21,8 +22,30 @@ export class LocationDataComponent implements OnInit {
     this.initForm();
   }
 
-  initForm() {
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.mainForm.status != 'DISABLED' && !this.mainForm.contains('locationForm')) {
+      if (!this.patterns) {
+        this.patterns = this._formService.getAllPatterns();
+      }
+      this.initForm();
+    }
   }
 
+  initForm() {
+    this.mainForm.addControl('locationForm', this._formBuilder.group({}));
+    this.locationForm = this.mainForm.get('locationForm') as FormGroup;
+    this.locationForm.addControl('latitude', new FormControl('', Validators.compose([Validators.required])))
+    this.locationForm.addControl('longitude', new FormControl('', Validators.compose([Validators.required])))
+    this.locationForm.addControl('address', new FormControl('', Validators.compose([Validators.required])))
+    this.locationForm.addControl('city_long_name', new FormControl('', Validators.compose([Validators.required])))
+    this.locationForm.addControl('country_long_name', new FormControl('', Validators.compose([Validators.required])))
+  }
+
+  getErrors(fieldName: string) {
+    this._formService.getError(fieldName, this.locationForm)
+  }
+
+  create() {
+
+  }
 }
