@@ -10,6 +10,11 @@ import { MaterialModule } from './material/material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerComponent } from './customer/customer.component';
 import { LayoutComponent } from './layout/layout.component';
+import {MatGoogleMapsAutocompleteModule} from '@angular-material-extensions/google-maps-autocomplete';
+import {AgmCoreModule} from '@agm/core';
+import { LocationDataComponent } from './location-data/location-data.component';
+
+
 
 
 
@@ -18,7 +23,8 @@ import { LayoutComponent } from './layout/layout.component';
     AppComponent,
     UserComponent,
     CustomerComponent,
-    LayoutComponent
+    LayoutComponent,
+    LocationDataComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +34,11 @@ import { LayoutComponent } from './layout/layout.component';
     ReactiveFormsModule,
     MaterialModule,
     NgbModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyArUPOhtOJyjOOEpiPHG-atVtR_0cyqEOY',
+      libraries: ['places']
+    }),
+    MatGoogleMapsAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
