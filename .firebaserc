@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "eventsitetest-701f3": {
+      "hosting": {
+        "eventSiteTest": [
+          "eventsitetest-701f3"
+        ]
+      }
+    }
+  }
+}
