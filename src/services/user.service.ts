@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Store } from '@ngrx/store';
+import { updateUserId } from 'src/app/user/userRedux/user.actions';
+import { IdState } from 'src/app/user/userRedux/user.reducer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  userId;
   constructor(
-    private _fireStore: AngularFirestore
+    private _fireStore: AngularFirestore,
+    private _userRDX:Store<IdState>
   ) { }
 
- async  createCustomer() {
-   const currentCustomer = {
-    name: 'Any customer',
-    service_room: true,
-    service_delivery: true,
-    service_take_away: true,
-    service_book: true,
-    service_table: true,
-    number_of_branches: 5
-   }
-    const currentObjectId = await this._fireStore.doc('user/customer').collection('customer').add({ ...currentCustomer });
+
+  async createUser(userData) {
+    const currentUser = await this._fireStore.doc('user/users').collection('users').add({ ... userData});
+    this._userRDX.dispatch(updateUserId({id: currentUser.id}));
+    this.userId = currentUser.id;
+    //  collection('users').add({ ...userData });
+    console.log(currentUser);
+  }
+
+  async createCustomer(customerData) {
+    const currentObjectId = await this._fireStore.doc(`user/users/users/${this.userId}`).collection('customer').add({ ...customerData });
     console.log(currentObjectId)
-
-
   }
 }

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { FormService } from '../services/form.service';
+import { IdState } from './userRedux/user.reducer';
 
 @Component({
   selector: 'app-user',
@@ -11,14 +13,20 @@ export class UserComponent implements OnInit {
   @Input() mainForm;
   userForm: FormGroup;
   patterns;
+  userId;
   constructor(
     private _formBuilder: FormBuilder,
     private _formService: FormService,
+    private _userRDX: Store<IdState>
   ) { }
 
   ngOnInit(): void {
     this.getAllPatters();
     this.initForm();
+    this._userRDX.select('id').subscribe(id => {
+      this.userId = id;
+    })
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {

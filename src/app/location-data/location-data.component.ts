@@ -1,6 +1,9 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../services/form.service';
+import {Location, Appearance } from '@angular-material-extensions/google-maps-autocomplete';
+/// <reference types="@types/googlemaps" /> import {} from '@types/googlemaps';
+import PlaceResult = google.maps.places.PlaceResult;
 
 @Component({
   selector: 'app-location-data',
@@ -11,6 +14,13 @@ export class LocationDataComponent implements OnInit {
   @Input() mainForm;
   locationForm: FormGroup;
   patterns;
+  public appearance = Appearance;
+  public zoom: number;
+  public latitude: number;
+  public longitude: number;
+  public selectedAddress: PlaceResult;
+  //
+
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -47,5 +57,53 @@ export class LocationDataComponent implements OnInit {
 
   create() {
 
+  }
+
+  public handleAddressChange(address: any) {
+    console.log(address)
+  }
+
+  onAutocompleteSelected(result: PlaceResult) {
+    this.locationForm.get('address').setValue(result.name);
+    this.locationForm.get('address').updateValueAndValidity();
+    console.log('onAutocompleteSelected: ', result);
+  }
+
+  onLocationSelected(locationSelec: Location) {
+    console.log('onLocationSelected: ', locationSelec);
+    this.locationForm.get('latitude').setValue(locationSelec.latitude);
+    this.locationForm.get('longitude').setValue(locationSelec.longitude);
+    const geocoder = new google.maps.Geocoder();
+    let latlng = new google.maps.LatLng(locationSelec.latitude, locationSelec.longitude);
+    geocoder.geocode({location: latlng}, (result, status) => {
+      const cityName = this.getCity(result[0].address_components)
+      const country = this.getCountry(result[0].address_components);
+      this.locationForm.get('city_long_name').setValue(cityName.long_name);
+      this.locationForm.get('country_long_name').setValue(country.long_name);
+      this.locationForm.get('city_long_name').updateValueAndValidity();
+      this.locationForm.get('country_long_name').updateValueAndValidity();
+    })
+    this.latitude = locationSelec.latitude;
+    this.longitude = locationSelec.longitude;
+  }
+
+ onGermanAddressMapped($event) {
+    console.log('onGermanAddressMapped', $event);
+  }
+
+  getCity(googleResponse) {
+    return googleResponse.find(city => {
+      if(city.types[0] == 'locality') {
+        return city.long_name;
+      }
+    });
+  }
+
+  getCountry(googleResponse) {
+    return googleResponse.find(city => {
+      if(city.types[0] == 'country') {
+        return city.long_name;
+      }
+    });
   }
 }

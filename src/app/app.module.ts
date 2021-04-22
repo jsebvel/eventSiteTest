@@ -17,8 +17,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
-
-
+import { StoreModule } from '@ngrx/store';
+import { updateId } from './user/userRedux/user.reducer';
 
 @NgModule({
   declarations: [
@@ -37,13 +37,14 @@ import { environment } from 'src/environments/environment';
     MaterialModule,
     NgbModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyArUPOhtOJyjOOEpiPHG-atVtR_0cyqEOY',
+      apiKey: 'AIzaSyBYgB5U85_FQvovNgeDJhGVxUpVuP4AmgI',
       libraries: ['places']
     }),
     MatGoogleMapsAutocompleteModule,
     SweetAlert2Module,
     MatButtonModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    StoreModule.forRoot({ id: updateId })
   ],
   providers: [],
   bootstrap: [AppComponent]

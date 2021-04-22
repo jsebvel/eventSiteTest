@@ -35,13 +35,13 @@ export class CustomerComponent implements OnInit {
     this.mainForm.addControl('customerForm', this._formBuilder.group([]));
     this.customerForm = this.mainForm.get('customerForm') as FormGroup;
 
-    this.customerForm.addControl('name', new FormControl('',Validators.compose(this._formService.defaultNameValidator)))
-    this.customerForm.addControl('service_delivery', new FormControl('',Validators.compose([])))
-    this.customerForm.addControl('service_take_away', new FormControl('',Validators.compose([])))
-    this.customerForm.addControl('service_book', new FormControl('',Validators.compose([])))
-    this.customerForm.addControl('service_table', new FormControl('',Validators.compose([])))
-    this.customerForm.addControl('service_room', new FormControl('',Validators.compose([])))
-    this.customerForm.addControl('number_of_branches', new FormControl('',Validators.compose([Validators.required])))
+    this.customerForm.addControl('name', new FormControl('',Validators.compose([Validators.required, Validators.minLength(6)])));
+    this.customerForm.addControl('service_delivery', new FormControl('',Validators.compose([])));
+    this.customerForm.addControl('service_take_away', new FormControl('',Validators.compose([])));
+    this.customerForm.addControl('service_book', new FormControl('',Validators.compose([])));
+    this.customerForm.addControl('service_table', new FormControl('',Validators.compose([])));
+    this.customerForm.addControl('service_room', new FormControl('',Validators.compose([])));
+    this.customerForm.addControl('number_of_branches', new FormControl('',Validators.compose([Validators.required])));
   }
 
   getAllPatters() {
