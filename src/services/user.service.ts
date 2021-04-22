@@ -16,7 +16,7 @@ export class UserService {
 
 
   async createUser(userData) {
-    const currentUser = await this._fireStore.doc('user/users').collection('users').add({ ... userData});
+    const currentUser = await this._fireStore.doc('eventSite/users').collection('users').add({ ... userData});
     this._userRDX.dispatch(updateUserId({id: currentUser.id}));
     this.userId = currentUser.id;
     //  collection('users').add({ ...userData });
@@ -24,7 +24,12 @@ export class UserService {
   }
 
   async createCustomer(customerData) {
-    const currentObjectId = await this._fireStore.doc(`user/users/users/${this.userId}`).collection('customer').add({ ...customerData });
+    const currentObjectId = await this._fireStore.doc(`eventSite/users/users/RbYUZRGlFY4sk3mt0WLN`).collection('customer').add({ ...customerData });
     console.log(currentObjectId)
   }
+
+  getCustomers() {
+    return this._fireStore.doc('eventSite/users/users/RbYUZRGlFY4sk3mt0WLN').collection('customer')
+  }
+
 }

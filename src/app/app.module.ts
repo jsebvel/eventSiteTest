@@ -19,6 +19,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { updateId } from './user/userRedux/user.reducer';
+import { EditionComponentComponent } from './edition-component/edition-component.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { updateId } from './user/userRedux/user.reducer';
     UserComponent,
     CustomerComponent,
     LayoutComponent,
-    LocationDataComponent
+    LocationDataComponent,
+    EditionComponentComponent
   ],
   imports: [
     BrowserModule,
