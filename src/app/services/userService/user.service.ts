@@ -56,7 +56,21 @@ export class UserService {
   }
 
   getCustomers() {
-    return this._fireStore.doc(`bMOh5AtRClM80yLbC6wPfPm26M92/customer`).collection('customers')
+    const data = this._fireStore.doc(`bMOh5AtRClM80yLbC6wPfPm26M92/customer`).collection('customers')
+    const ids = data.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
+    ids.subscribe(datat => {
+      console.log(datat)
+    })
+    return ids;
+
   }
 
   isAuth() {
@@ -67,7 +81,10 @@ export class UserService {
 
   signOut() {
     this.auth.signOut();
-    //this._store.dispatch(authF.unsetUser());
+  }
+
+  updateInfo(customer, id) {
+    this._fireStore.doc(`bMOh5AtRClM80yLbC6wPfPm26M92/customer/customers/${id}`).update({...customer});
   }
 
 

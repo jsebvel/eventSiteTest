@@ -107,6 +107,10 @@
         </mat-error>
       </mat-form-field>
     </div>
-
   </form>
+  <ng-container *ngIf="item">
+    <div class="d-flex justify-content-center">
+      <button mat-raised-button color="accent" (click)="updateProduct(item)">Actualizar info</button>
+    </div>
+  </ng-container>
 </div>

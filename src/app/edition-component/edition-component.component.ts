@@ -19,9 +19,13 @@ export class EditionComponentComponent implements OnInit {
   }
 
   getCustomerList() {
-   this._userService.getCustomers().valueChanges().subscribe(customers => {
+   this._userService.getCustomers().subscribe(customers => {
      this.customerList = customers;
      console.log(this.customerList);
-   })
+   });
   }
+
+  // updateProduct(item) {
+  //   this._userService.updateInfo(item);
+  // }
 }

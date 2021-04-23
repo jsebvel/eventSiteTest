@@ -1,7 +1,13 @@
-<ng-container *ngFor="let item of customerList">
-  <div class="col-6">
-    <label><strong>Nombre del restaurante: </strong> {{item.name | titlecase}}</label>
-    <label><strong>Número de sucursales: </strong> {{item.number_of_branches}}</label>
-  </div>
-</ng-container>
+<div class="" style="size: 500;">
+  <ng-container *ngFor="let item of customerList">
+    <mat-card style="size: 100%;">
+      <app-customer [item]="item"></app-customer>
 
+    </mat-card>
+    <mat-card-actions>
+
+    </mat-card-actions>
+    <br>
+  </ng-container>
+
+</div>
