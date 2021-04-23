@@ -1,0 +1,44 @@
+<div class="row d-flex justify-content-center">
+  <div style="width: 50%; height: 50;">
+    <mat-card class="example-card mat-elevation-z8" style="margin-top: 50%;">
+      <form [formGroup]="loginForm">
+        <mat-card-header>
+          <mat-card-title>Iniciar sesión</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Correo Electrónico*:</mat-label>
+              <input matInput placeholder="Correo electrónico" type="email" formControlName="email">
+              <mat-error *ngIf="loginForm.get('email').invalid">
+                {{ getError("email") }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Contraseña*:</mat-label>
+              <input matInput placeholder="Contraseña" type="password" formControlName="password">
+              <mat-error *ngIf="loginForm.get('password').invalid">
+                {{ getError("password") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </form>
+      <mat-card-actions class="center-action-card">
+        <div class="d-flex justify-content-center">
+          <button mat-stroked-button color="accent" (click)="login()">Iniciar sesión</button>
+        </div>
+        <br>
+        <br>
+        <ng-container *ngIf="isLoading">
+          <mat-spinner diameter="50" style="margin-left: 50px;"></mat-spinner>
+        </ng-container>
+      </mat-card-actions>
+      <mat-card-actions class="center-action-card">
+        <a routerLink="/register">Registrarme</a>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+</div>

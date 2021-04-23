@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormService } from '../services/form.service';
+import { FormService } from '../services/formService/form.service';
 import {Location, Appearance } from '@angular-material-extensions/google-maps-autocomplete';
 /// <reference types="@types/googlemaps" /> import {} from '@types/googlemaps';
 import PlaceResult = google.maps.places.PlaceResult;

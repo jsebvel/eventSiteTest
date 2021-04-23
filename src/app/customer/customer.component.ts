@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormService } from '../services/form.service';
+import { FormService } from '../services/formService/form.service';
 
 
 @Component({

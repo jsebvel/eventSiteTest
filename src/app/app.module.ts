@@ -20,7 +20,8 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { updateId } from './user/userRedux/user.reducer';
 import { EditionComponentComponent } from './edition-component/edition-component.component';
-
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,9 @@ import { EditionComponentComponent } from './edition-component/edition-component
     CustomerComponent,
     LayoutComponent,
     LocationDataComponent,
-    EditionComponentComponent
+    EditionComponentComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,7 @@ import { EditionComponentComponent } from './edition-component/edition-component
     SweetAlert2Module,
     MatButtonModule,
     AngularFireModule.initializeApp(environment.firebase),
-    StoreModule.forRoot({ id: updateId })
+    StoreModule.forRoot({ id: updateId }),
   ],
   providers: [],
   bootstrap: [AppComponent]

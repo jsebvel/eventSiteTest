@@ -1,0 +1,58 @@
+<div class="row d-flex justify-content-center">
+  <div style="width: 50%; height: 50;">
+    <mat-card class="example-card mat-elevation-z4" style="margin-top: 50%;">
+      <form [formGroup]="registerForm">
+        <mat-card-header>
+          <mat-card-title>Registro</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Nombre*:</mat-label>
+            <input matInput placeholder="Nombre" type="text" formControlName="name">
+            <mat-error *ngIf="registerForm.get('name').invalid">
+              {{ getError("name") }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Correo Electrónico*:</mat-label>
+            <input matInput placeholder="Correo electrónico" type="email" formControlName="email">
+            <mat-error *ngIf="registerForm.get('email').invalid">
+              {{ getError("email") }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Contraseña*:</mat-label>
+            <input matInput placeholder="Contraseña" type="password" formControlName="password">
+            <mat-error *ngIf="registerForm.get('password').invalid">
+              {{ getError("password") }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Verificación contraseña*:</mat-label>
+            <input matInput placeholder="Contraseña" type="password" formControlName="verifyPassword">
+            <mat-error *ngIf="registerForm.get('verifyPassword').invalid">
+              {{ getError("verifyPassword") }}
+            </mat-error>
+          </mat-form-field>
+
+        </mat-card-content>
+      </form>
+      <mat-card-actions class="d-flex justify-content-center">
+        <mat-grid-list cols="1">
+          <button mat-stroked-button color="accent" (click)="register()">Registrarme</button>
+          <br>
+          <br>
+          <ng-container *ngIf="isLoading" class="center-action-card">
+            <mat-spinner diameter="50" style="margin-left: 50px;"></mat-spinner>
+          </ng-container>
+        </mat-grid-list>
+      </mat-card-actions>
+      <a routerLink="">Volver a inicio de sesión</a>
+    </mat-card>
+  </div>
+</div>

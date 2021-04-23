@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { updateUserId } from "./user.actions";
+import { getUserId, updateUserId } from "./user.actions";
 
 
 export const initId='';
@@ -10,7 +10,8 @@ export interface IdState {
 
 const _updateId = createReducer(
   initId,
-  on(updateUserId, (state, {id}) => id)
+  on(updateUserId, (state, {id}) => state = id),
+  on(getUserId, state => state)
 );
 
 export function updateId(state, action) {

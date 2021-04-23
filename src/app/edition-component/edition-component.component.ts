@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/services/user.service';
-import { FormService } from '../services/form.service';
+import { UserService } from 'src/app/services/userService/user.service';
+import { FormService } from '../services/formService/form.service';
 
 @Component({
   selector: 'app-edition-component',

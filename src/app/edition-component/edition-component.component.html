@@ -1,4 +1,7 @@
 <ng-container *ngFor="let item of customerList">
-    {{item.name}}
-    {{item.number_of_branches}}
+  <div class="col-6">
+    <label><strong>Nombre del restaurante: </strong> {{item.name | titlecase}}</label>
+    <label><strong>Número de sucursales: </strong> {{item.number_of_branches}}</label>
+  </div>
 </ng-container>
+
