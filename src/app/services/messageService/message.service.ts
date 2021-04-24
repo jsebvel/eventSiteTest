@@ -60,4 +60,17 @@ export class MessagesService {
       })
     }
   }
+
+  createCustomerMessage(messageType) {
+    let swalIcon;
+    let swalMessage;
+    if (messageType == 'success') {
+      swalIcon = 'success';
+      swalMessage = 'El restaurante ha sido creado con éxito';
+    }
+    swal.fire({
+      icon: swalIcon,
+      text: swalMessage
+    });
+  }
 }

@@ -6,7 +6,7 @@
         <mat-label>
           Nombre Completo *
         </mat-label>
-        <input matInput placeholder="Nombre completo" formControlName="first_name" type="text">
+        <input matInput placeholder="Nombre completo" formControlName="first_name" type="text" readonly>
         <mat-error *ngIf="userForm.get('first_name').invalid">
           {{ getErrors('first_name') }}
         </mat-error>
@@ -16,7 +16,7 @@
         <mat-label>
           Apellidos *
         </mat-label>
-        <input matInput placeholder="Apellidos" formControlName="last_name" type="text">
+        <input matInput placeholder="Apellidos" formControlName="last_name" type="text" readonly>
         <mat-error *ngIf="userForm.get('last_name').invalid">
           {{ getErrors('last_name') }}
         </mat-error>
@@ -26,7 +26,7 @@
         <mat-label>
           Correo electrónico *
         </mat-label>
-        <input matInput placeholder="Correo electrónico" formControlName="email" type="email">
+        <input matInput placeholder="Correo electrónico" formControlName="email" type="email" readonly>
         <mat-error *ngIf="userForm.get('email').invalid">
           {{ getErrors('email') }}
         </mat-error>
@@ -36,7 +36,7 @@
         <mat-label>
           Código *
         </mat-label>
-        <input matInput placeholder="Código" formControlName="code" type="tel">
+        <input matInput placeholder="Código" formControlName="code" type="tel" readonly>
         <mat-error *ngIf="userForm.get('code').invalid">
           {{ getErrors('code') }}
         </mat-error>
@@ -46,29 +46,9 @@
         <mat-label>
           Teléfono *
         </mat-label>
-        <input matInput placeholder="Teléfono" formControlName="phone" type="tel">
+        <input matInput placeholder="Teléfono" formControlName="phone" type="tel" readonly>
         <mat-error *ngIf="userForm.get('phone').invalid">
           {{ getErrors('phone') }}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="col-6">
-        <mat-label>
-          Contraseña *
-        </mat-label>
-        <input matInput placeholder="Contraseña" formControlName="password" type="password">
-        <mat-error *ngIf="userForm.get('password').invalid">
-          {{ getErrors('password') }}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="col-6">
-        <mat-label>
-          Verificar contraseña *
-        </mat-label>
-        <input matInput placeholder="Verificar contraseña" formControlName="verify_password" type="password">
-        <mat-error *ngIf="userForm.get('verify_password').invalid">
-          {{ getErrors('verify_password') }}
         </mat-error>
       </mat-form-field>
 

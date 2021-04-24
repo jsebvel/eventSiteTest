@@ -6,6 +6,7 @@ import { IdState } from 'src/app/user/userRedux/user.reducer';
 import { SessionUser } from 'src/models/sessionUser';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
+import { MessagesService } from '../messageService/message.service';
 
 
 
@@ -18,6 +19,7 @@ export class UserService {
     private _fireStore: AngularFirestore,
     private _userRDX: Store<IdState>,
     public auth: AngularFireAuth,
+    private _messageService: MessagesService,
   ) {
     this._userRDX.select('id').subscribe(id => {
       this.userId = id;
@@ -31,7 +33,7 @@ export class UserService {
       .then(({ user }) => {
         const newUser = new SessionUser(user.uid, userData.name, user.email);
         return this._fireStore.doc(`${newUser.uid}/user`)
-          .set({ ...newUser })
+          .set({ ...userData })
       });
   }
 
@@ -52,11 +54,13 @@ export class UserService {
 
   async createCustomer(customerData) {
     const currentObjectId = await this._fireStore.doc(`${this.userId}/customer`).collection('customers').add({ ...customerData });
-    console.log(currentObjectId)
+    if (currentObjectId.id) {
+      this._messageService.createCustomerMessage('success');
+    }
   }
 
   getCustomers() {
-    const data = this._fireStore.doc(`bMOh5AtRClM80yLbC6wPfPm26M92/customer`).collection('customers')
+    const data = this._fireStore.doc(`${this.userId}/customer`).collection('customers')
     const ids = data.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -79,12 +83,22 @@ export class UserService {
     );
   }
 
+  getUserData() {
+    return this._fireStore.doc(`${this.userId}/user`)
+  }
+
   signOut() {
     this.auth.signOut();
   }
 
   updateInfo(customer, id) {
-    this._fireStore.doc(`bMOh5AtRClM80yLbC6wPfPm26M92/customer/customers/${id}`).update({...customer});
+    this._fireStore.doc(`${this.userId}/customer/customers/${id}`).update({ ...customer });
+  }
+
+  deleteCustomer(id) {
+    this._fireStore.doc(`${this.userId}/customer/customers/${id}`).delete().then(resp => {
+      console.log(resp);
+    })
   }
 
 

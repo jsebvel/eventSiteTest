@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/userService/user.service';
 import { FormService } from '../services/formService/form.service';
-
+import swal from 'sweetalert2'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-edition-component',
   templateUrl: './edition-component.component.html',
@@ -12,6 +13,7 @@ export class EditionComponentComponent implements OnInit {
   constructor(
     private _formService: FormService,
     private _userService: UserService,
+    private _router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -19,13 +21,22 @@ export class EditionComponentComponent implements OnInit {
   }
 
   getCustomerList() {
-   this._userService.getCustomers().subscribe(customers => {
-     this.customerList = customers;
-     console.log(this.customerList);
-   });
+    this._userService.getCustomers().subscribe(customers => {
+      this.customerList = customers;
+      if (this.customerList.length < 1) {
+        this.redirectWhenNotUserCustomers();
+      }
+    });
   }
 
-  // updateProduct(item) {
-  //   this._userService.updateInfo(item);
-  // }
+  redirectWhenNotUserCustomers() {
+    swal.fire({
+      icon: 'success',
+      text: 'Lo sentimos, no tienes restaurantes asociados'
+    }).then(data => {
+      if(data.isConfirmed) {
+        this._router.navigate(['create']);
+      }
+    })
+  }
 }

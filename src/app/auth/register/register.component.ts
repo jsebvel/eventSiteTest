@@ -58,10 +58,13 @@ export class RegisterComponent implements OnInit {
 
   initializeForm() {
     this.registerForm = this._formBuilder.group({
-      name: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(this.onlyLettersPattern)])],
-      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.email])],
+      name: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(this.onlyLettersPattern)])],
+      last_name: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(this.onlyLettersPattern)])],
+      email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.email])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])],
-      verifyPassword: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50)])]
+      verifyPassword: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50)])],
+      code: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
+      phone: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50)])],
     });
   }
 

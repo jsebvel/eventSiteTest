@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IdState } from 'src/app/user/userRedux/user.reducer';
 import { updateUserId } from 'src/app/user/userRedux/user.actions';
+import { authStore } from '../authStore/authStore.reducer';
+import { setIsLoading } from '../authStore/authStore.actions';
 // import { AppState } from 'src/app/app.reducer';
 
 
@@ -22,7 +24,7 @@ import { updateUserId } from 'src/app/user/userRedux/user.actions';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   emailPattern = '[ÑA-Zña-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})';
-  isLoading = false;
+  isLoading;
   loginSubscription: Subscription;
   userId;
 
@@ -32,17 +34,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private _userService: UserService,
     private _messaService: MessagesService,
-    private _userRDX: Store<IdState>
+    private _userRDX: Store<IdState>,
+    private _authStore: Store<authStore>
 
   ) { }
 
   ngOnInit(): void {
     this.verifyLogin();
     this.initializeLoginForm();
+    this.createReducer();
+
+  }
+
+  createReducer() {
     this._userRDX.select('id').subscribe(id => {
       this.userId;
-    })
+    });
 
+    this._authStore.select('loading').subscribe(loading => {
+      this.isLoading = loading;
+    })
   }
 
   initializeLoginForm() {
@@ -63,11 +74,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     if (this.loginForm.valid) {
       const userData = this.loginForm.getRawValue();
-      // this.authStore.dispatch(isLoadiing())
-
+      this._authStore.dispatch(setIsLoading({ loading: true }))
       this._userService.login(userData)
         .then(loginResponse => {
-          // this.authStore.dispatch(stopLoading())
+          this._authStore.dispatch(setIsLoading({ loading: false }))
           this._userRDX.dispatch(updateUserId({ id: loginResponse.user.uid }))
           this._messaService.loginMessages(loginResponse);
           this.router.navigate(['create']);
@@ -76,7 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         })
         .catch(loginResponse => {
-          // this.authStore.dispatch(stopLoading())
+          this._authStore.dispatch(setIsLoading({ loading: false }))
           this._messaService.loginMessages(loginResponse);
         });
 

@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { FormService } from '../services/formService/form.service';
+import { UserService } from '../services/userService/user.service';
 import { IdState } from './userRedux/user.reducer';
 
 @Component({
@@ -14,10 +15,12 @@ export class UserComponent implements OnInit {
   userForm: FormGroup;
   patterns;
   userId;
+  userData;
   constructor(
     private _formBuilder: FormBuilder,
     private _formService: FormService,
-    private _userRDX: Store<IdState>
+    private _userRDX: Store<IdState>,
+    private _userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -25,8 +28,11 @@ export class UserComponent implements OnInit {
     this.initForm();
     this._userRDX.select('id').subscribe(id => {
       this.userId = id;
+    });
+    this._userService.getUserData().valueChanges().subscribe(data => {
+      this.userData = data;
+      this.setValues();
     })
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,8 +52,6 @@ export class UserComponent implements OnInit {
     this.userForm.addControl('email', new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.patterns.emailPattern)])))
     this.userForm.addControl('code', new FormControl('', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern(this.patterns.numericPattern)])))
     this.userForm.addControl('phone', new FormControl('', Validators.compose([Validators.required, Validators.min(6)])))
-    this.userForm.addControl('password', new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)])))
-    this.userForm.addControl('verify_password', new FormControl('', Validators.compose([Validators.required])))
   }
 
   getAllPatters() {
@@ -56,6 +60,16 @@ export class UserComponent implements OnInit {
 
   getErrors(fieldName: string) {
     return this._formService.getError(fieldName, this.userForm);
+  }
+
+  setValues() {
+    if (this.userData) {
+      this.userForm.get('first_name').setValue(this.userData.name);
+      this.userForm.get('last_name').setValue(this.userData.last_name);
+      this.userForm.get('email').setValue(this.userData.email);
+      this.userForm.get('code').setValue(this.userData.code);
+      this.userForm.get('phone').setValue(this.userData.phone);
+    }
   }
 
 }

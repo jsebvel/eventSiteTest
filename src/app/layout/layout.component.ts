@@ -38,35 +38,11 @@ export class LayoutComponent implements OnInit {
 
   async createForm() {
     console.log(this.mainForm)
-    // const userForm = this.mainForm.get('userForm') as FormGroup;
-    // this.user = userForm.getRawValue();
-    // await this._userService.createUser(this.user);
-
     const customerForm = this.mainForm.get('customerForm') as FormGroup;
     this.customer = customerForm.getRawValue();
-    await this._userService.createCustomer(this.customer);
+    const customerResponse = await this._userService.createCustomer(this.customer);
+    console.log(customerForm)
 
-    // if (this.mainForm.valid) {
-    //   const userForm = this.mainForm.get('userForm') as FormGroup;
-    //   this.user = userForm.getRawValue();
-
-    //   const customerForm = this.mainForm.get('customerForm') as FormGroup;
-    //   this.customer = customerForm.getRawValue();
-
-    //   const locationForm = this.mainForm.get('locationForm') as FormGroup;
-    //   this.location = locationForm.getRawValue();
-
-    //   await this._userService.createUser(this.user);
-    //   if (this.userId.length > 0) {
-    //     await this._userService.createCustomer(this.customer);
-    //   }
-    // } else {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     text: 'Por favor verifica los campos en rojo'
-    //   });
-    //   this.mainForm.markAllAsTouched();
-    // }
   }
 
   logout() {

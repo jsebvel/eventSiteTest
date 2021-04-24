@@ -1,19 +1,9 @@
-<nav class="navbar navbar-light bg-light justify-content-between">
-  <a class="navbar-brand">Navbar</a>
-  <div class="form-inline">
-    <button class="btn btn-outline-warning my-2 my-sm-0" (click)="logout()">Cerrar Sesión</button>
-    <button class="btn btn-outline-success my-2 my-sm-0" (click)="goEdit()">Editar</button>
-  </div>
-</nav>
-
 <div style="margin: 1%;">
   <mat-card>
     <app-user [mainForm]="mainForm"></app-user>
     <app-customer [mainForm]="mainForm"></app-customer>
-    <app-location-data [mainForm]="mainForm"></app-location-data>
-
-    <mat-card-actions  class="d-flex justify-content-center">
-      <button mat-stroked-button color="accent" (click)="createForm()">SHARE</button>
+    <mat-card-actions class="d-flex justify-content-center">
+      <button mat-stroked-button color="accent" (click)="createForm()">Crear restaurante</button>
     </mat-card-actions>
   </mat-card>
 </div>

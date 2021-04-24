@@ -1,7 +1,9 @@
+import { Location, Appearance } from '@angular-material-extensions/google-maps-autocomplete';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../services/formService/form.service';
 import { UserService } from '../services/userService/user.service';
+import PlaceResult = google.maps.places.PlaceResult;
 
 
 @Component({
@@ -13,6 +15,11 @@ export class CustomerComponent implements OnInit {
   @Input() mainForm;
   @Input() item;
   customerForm: FormGroup;
+  public appearance = Appearance;
+  public zoom: number;
+  public latitude: number;
+  public longitude: number;
+  public selectedAddress: PlaceResult;
   patterns;
   constructor(
     private _formBuilder: FormBuilder,
@@ -29,7 +36,7 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.item) {
+    if (!this.item) {
       if (this.mainForm.status != 'DISABLED' && !this.mainForm.contains('customerForm')) {
         if (!this.patterns) {
           this.getAllPatters();
@@ -44,41 +51,95 @@ export class CustomerComponent implements OnInit {
     this.mainForm.addControl('customerForm', this._formBuilder.group([]));
     this.customerForm = this.mainForm.get('customerForm') as FormGroup;
 
-    this.customerForm.addControl('name', new FormControl('',Validators.compose([Validators.required, Validators.minLength(6)])));
-    this.customerForm.addControl('service_delivery', new FormControl('',Validators.compose([])));
-    this.customerForm.addControl('service_take_away', new FormControl('',Validators.compose([])));
-    this.customerForm.addControl('service_book', new FormControl('',Validators.compose([])));
-    this.customerForm.addControl('service_table', new FormControl('',Validators.compose([])));
-    this.customerForm.addControl('service_room', new FormControl('',Validators.compose([])));
-    this.customerForm.addControl('number_of_branches', new FormControl('',Validators.compose([Validators.required])));
+    this.customerForm.addControl('name', new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)])));
+    this.customerForm.addControl('service_delivery', new FormControl('', Validators.compose([])));
+    this.customerForm.addControl('service_take_away', new FormControl('', Validators.compose([])));
+    this.customerForm.addControl('service_book', new FormControl('', Validators.compose([])));
+    this.customerForm.addControl('service_table', new FormControl('', Validators.compose([])));
+    this.customerForm.addControl('service_room', new FormControl('', Validators.compose([])));
+    this.customerForm.addControl('number_of_branches', new FormControl('', Validators.compose([Validators.required])));
+    this.customerForm.addControl('latitude', new FormControl('', Validators.compose([Validators.required])))
+    this.customerForm.addControl('longitude', new FormControl('', Validators.compose([Validators.required])))
+    this.customerForm.addControl('address', new FormControl('', Validators.compose([Validators.required])))
+    this.customerForm.addControl('city_long_name', new FormControl('', Validators.compose([Validators.required])))
+    this.customerForm.addControl('country_long_name', new FormControl('', Validators.compose([Validators.required])))
   }
 
   createForm() {
     this.customerForm = this._formBuilder.group({
-      'name': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-      'service_delivery': ['', Validators.compose([])],
-      'service_take_away': ['', Validators.compose([])],
-      'service_book': ['', Validators.compose([])],
-      'service_table': ['', Validators.compose([])],
-      'service_room': ['', Validators.compose([])],
-      'number_of_branches': ['', Validators.compose([Validators.required])],
-    })
-
-    this.putData();
+      'name': [this.item.name, Validators.compose([Validators.required, Validators.minLength(6)])],
+      'service_delivery': [this.item.service_delivery, Validators.compose([])],
+      'service_take_away': [this.item.service_take_away, Validators.compose([])],
+      'service_book': [this.item.service_book, Validators.compose([])],
+      'service_table': [this.item.service_table, Validators.compose([])],
+      'service_room': [this.item.service_room, Validators.compose([])],
+      'number_of_branches': [this.item.number_of_branches, Validators.compose([Validators.required])],
+      'latitude': [this.item.latitude, Validators.compose([Validators.required])],
+      'longitude': [this.item.longitude, Validators.compose([Validators.required])],
+      'address': [this.item.address, Validators.compose([Validators.required])],
+      'city_long_name': [this.item.city_long_name, Validators.compose([Validators.required])],
+      'country_long_name': [this.item.country_long_name, Validators.compose([Validators.required])],
+    });
+    const locationSelect: Location = ({latitude: this.item.latitude, longitude: this.item.longitude}) ;
+    this.onLocationSelected(locationSelect)
   }
 
-  putData(){
-    this.customerForm.get('name').setValue(this.item.name);
-    this.customerForm.get('service_delivery').setValue(this.item.service_delivery);
-    this.customerForm.get('service_take_away').setValue(this.item.service_take_away);
-    this.customerForm.get('service_book').setValue(this.item.service_book);
-    this.customerForm.get('service_table').setValue(this.item.service_table);
-    this.customerForm.get('service_room').setValue(this.item.service_room);
-    this.customerForm.get('number_of_branches').setValue(this.item.number_of_branches);
-  }
 
   getAllPatters() {
     this.patterns = this._formService.getAllPatterns();
+  }
+  public handleAddressChange(address: any) {
+    console.log(address)
+  }
+
+  onAutocompleteSelected(result: PlaceResult) {
+    this.customerForm.get('address').setValue(result.name);
+    this.customerForm.get('address').updateValueAndValidity();
+    console.log('onAutocompleteSelected: ', result);
+  }
+
+  onLocationSelected(locationSelec: Location) {
+    console.log('onLocationSelected: ', locationSelec);
+    this.customerForm.get('latitude').setValue(locationSelec.latitude);
+    this.customerForm.get('longitude').setValue(locationSelec.longitude);
+    this.geocodeAddress(locationSelec.latitude, locationSelec.longitude);
+  }
+
+  geocodeAddress(latitude, longitude) {
+    const geocoder = new google.maps.Geocoder();
+    let latlng = new google.maps.LatLng(latitude, longitude);
+    geocoder.geocode({ location: latlng }, (result, status) => {
+      const cityName = this.getCity(result[0].address_components)
+      const country = this.getCountry(result[0].address_components);
+      this.customerForm.get('city_long_name').setValue(cityName.long_name);
+      this.customerForm.get('country_long_name').setValue(country.long_name);
+      this.customerForm.get('city_long_name').updateValueAndValidity();
+      this.customerForm.get('country_long_name').updateValueAndValidity();
+      this.customerForm.get('address').setValue(result[0].formatted_address)
+      this.customerForm.get('address').updateValueAndValidity();
+    })
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+
+  onGermanAddressMapped($event) {
+    console.log('onGermanAddressMapped', $event);
+  }
+
+  getCity(googleResponse) {
+    return googleResponse.find(city => {
+      if (city.types[0] == 'locality') {
+        return city.long_name;
+      }
+    });
+  }
+
+  getCountry(googleResponse) {
+    return googleResponse.find(city => {
+      if (city.types[0] == 'country') {
+        return city.long_name;
+      }
+    });
   }
 
   getErrors(fieldName: string) {
@@ -89,4 +150,10 @@ export class CustomerComponent implements OnInit {
     const newFOrm = this.customerForm.getRawValue();
     this._userService.updateInfo(newFOrm, item.id);
   }
+
+  deleteProduct(item) {
+    this._userService.deleteCustomer(item.id);
+  }
+
+
 }
