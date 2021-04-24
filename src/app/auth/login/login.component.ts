@@ -46,6 +46,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * Init the state objects
+   */
   createReducer() {
     this._userRDX.select('id').subscribe(id => {
       this.userId;
@@ -53,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._authStore.select('loading').subscribe(loading => {
       this.isLoading = loading;
-    })
+    });
   }
 
   initializeLoginForm() {
@@ -81,9 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this._userRDX.dispatch(updateUserId({ id: loginResponse.user.uid }))
           this._messaService.loginMessages(loginResponse);
           this.router.navigate(['create']);
-          // this.store.dispatch(login({ email: userData.email }))
-
-
         })
         .catch(loginResponse => {
           this._authStore.dispatch(setIsLoading({ loading: false }))

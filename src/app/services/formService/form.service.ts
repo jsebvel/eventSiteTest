@@ -8,6 +8,10 @@ export class FormService {
 
   constructor() { }
 
+  /**
+   *
+   * @returns Returns a list with all patterns
+   */
   getAllPatterns() {
     return {
       onlyLettersPattern: "^[A-Za-zÀ-ÿ ]+$",
@@ -23,12 +27,20 @@ export class FormService {
     };
   }
 
+  /**
+   * @description Return a generic and common validation
+   */
   get defaultNameValidator() {
     const patterns = this.getAllPatterns();
     return [Validators.required, Validators.minLength(3), Validators.pattern(patterns.onlyLettersPattern)]
   }
 
-
+  /**
+   *
+   * @param field Field name with to verify if it has an error.
+   * @param formGroup Form group who contains the field
+   * @returns {string} Error message if field has any error.
+   */
   getError(field: string, formGroup: FormGroup) {
     if (formGroup.get(field).hasError('required')) {
       return 'El campo es requerido';
@@ -42,7 +54,7 @@ export class FormService {
     else if (formGroup.get(field).hasError('max')) {
       return 'El valor ingresado supera el valor máximo permitido';
     }
-   else  if (formGroup.get(field).hasError('minlength')) {
+    else if (formGroup.get(field).hasError('minlength')) {
       return 'El campo tiene menos caracteres de los requeridos';
     }
     else if (formGroup.get(field).hasError('maxlength')) {
@@ -50,7 +62,7 @@ export class FormService {
     }
     else if (formGroup.get(field).hasError('email')) {
       return `El formato para ${field} es incorrecto`;
-    } else if(formGroup.get(field).hasError('notMatch')){
+    } else if (formGroup.get(field).hasError('notMatch')) {
       return 'Las contraseñas no coinciden';
     }
 

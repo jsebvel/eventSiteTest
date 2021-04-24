@@ -1,22 +1,23 @@
-<ng-container style="height: 100%;">
-  <ng-container *ngIf="customerList && customerList.length > 0; else noItemsTemplate">
-    <ng-container *ngFor="let item of customerList">
-      <mat-card style="size: 100%;">
-        <app-customer [item]="item"></app-customer>
+<div style="margin: 5%;">
+  <ng-container style="height: 100%;">
+    <ng-container *ngIf="customerList && customerList.length > 0; else noItemsTemplate">
+      <ng-container *ngFor="let item of customerList">
+        <mat-card style="size: 100%;">
+          <app-customer [item]="item"></app-customer>
 
-      </mat-card>
-      <mat-card-actions>
+        </mat-card>
+        <mat-card-actions>
 
-      </mat-card-actions>
-      <br>
+        </mat-card-actions>
+        <br>
+      </ng-container>
     </ng-container>
-  </ng-container>
 
-  <ng-template #noItemsTemplate>
-    <mat-card>
-      <mat-card-content>
-        <h1>Ups! En este momento no tienes información asociada</h1>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
-</ng-container>
+    <ng-template #noItemsTemplate>
+      <mat-card>
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </ng-container>
+</div>

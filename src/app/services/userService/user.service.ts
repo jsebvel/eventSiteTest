@@ -55,25 +55,35 @@ export class UserService {
   async createCustomer(customerData) {
     const currentObjectId = await this._fireStore.doc(`${this.userId}/customer`).collection('customers').add({ ...customerData });
     if (currentObjectId.id) {
-      this._messageService.createCustomerMessage('success');
+      this._messageService.customerActions('success');
     }
   }
 
+  /**
+   * @description get the customer info to show on Edition Component
+   * @returns customer info with it's own id
+   */
   getCustomers() {
-    const data = this._fireStore.doc(`${this.userId}/customer`).collection('customers')
-    const ids = data.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
+    try {
+      const data = this._fireStore.doc(`${this.userId}/customer`).collection('customers')
+      const ids = data.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          });
+        })
+      );
+      ids.subscribe(datat => {
+        console.log(datat)
       })
-    );
-    ids.subscribe(datat => {
-      console.log(datat)
-    })
-    return ids;
+      return ids;
+
+    } catch (error) {
+      this._messageService.errorMessage();
+      return error;
+    }
 
   }
 
@@ -83,24 +93,38 @@ export class UserService {
     );
   }
 
+  /**
+   * @description get the current user data from firebase
+   * @returns the user data from current user
+   */
   getUserData() {
     return this._fireStore.doc(`${this.userId}/user`)
   }
 
   signOut() {
+    this._userRDX.dispatch(updateUserId({id:''}))
     this.auth.signOut();
   }
 
-  updateInfo(customer, id) {
+  /**
+   * @description Update the customer send.
+   * @param customer customer info
+   * @param id Id corresponding to customer to update
+   */
+  updateCustomerInfo(customer, id) {
     this._fireStore.doc(`${this.userId}/customer/customers/${id}`).update({ ...customer });
+    this._messageService.customerActions('update');
   }
 
+  /**
+   * @description Delete the customer by id
+   * @param id  Id corresponding to customer to update
+   */
   deleteCustomer(id) {
-    this._fireStore.doc(`${this.userId}/customer/customers/${id}`).delete().then(resp => {
-      console.log(resp);
-    })
+    const resp = this._fireStore.doc(`${this.userId}/customer/customers/${id}`).delete();
+    if (resp) {
+      this._messageService.customerActions('delete');
+    }
   }
-
-
 
 }

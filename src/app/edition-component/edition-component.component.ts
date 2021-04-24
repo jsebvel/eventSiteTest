@@ -19,7 +19,9 @@ export class EditionComponentComponent implements OnInit {
   ngOnInit(): void {
     this.getCustomerList();
   }
-
+  /**
+   * @description get the customer according actual user
+   */
   getCustomerList() {
     this._userService.getCustomers().subscribe(customers => {
       this.customerList = customers;
@@ -29,10 +31,13 @@ export class EditionComponentComponent implements OnInit {
     });
   }
 
+  /**
+   * @description redirect if userId does not exist.
+   */
   redirectWhenNotUserCustomers() {
     swal.fire({
-      icon: 'success',
-      text: 'Lo sentimos, no tienes restaurantes asociados'
+      icon: 'warning',
+      text: 'En este momento, no tienes restaurantes asociados'
     }).then(data => {
       if(data.isConfirmed) {
         this._router.navigate(['create']);

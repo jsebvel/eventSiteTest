@@ -1,9 +1,9 @@
-<div style="margin: 1%;">
+<div style="margin: 5%;">
   <mat-card>
     <app-user [mainForm]="mainForm"></app-user>
     <app-customer [mainForm]="mainForm"></app-customer>
     <mat-card-actions class="d-flex justify-content-center">
-      <button mat-stroked-button color="accent" (click)="createForm()">Crear restaurante</button>
+      <button mat-stroked-button color="accent" (click)="createForm()" [disabled]="isLoading">Crear restaurante</button>
     </mat-card-actions>
   </mat-card>
 </div>

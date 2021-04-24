@@ -72,7 +72,7 @@
       </form>
       <mat-card-actions class="d-flex justify-content-center">
         <mat-grid-list cols="1">
-          <button mat-stroked-button color="accent" (click)="register()">Registrarme</button>
+          <button mat-stroked-button color="accent" (click)="register()" [disabled]="isLoading">Registrarme</button>
           <br>
           <br>
           <ng-container *ngIf="isLoading" class="center-action-card">

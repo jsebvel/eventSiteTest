@@ -7,6 +7,8 @@ import { FormService } from 'src/app/services/formService/form.service';
 import { MessagesService } from 'src/app/services/messageService/message.service';
 import { UserService } from 'src/app/services/userService/user.service';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { authStore } from '../authStore/authStore.reducer';
+import { setIsLoading } from '../authStore/authStore.actions';
 
 
 @Component({
@@ -28,15 +30,17 @@ export class RegisterComponent implements OnInit {
     private _formService: FormService,
     private _userService: UserService,
     private _messageService: MessagesService,
-
+    private _authStore: Store<authStore>
   ) { }
 
   ngOnInit(): void {
     this.initializeForm();
     this.createSubsc();
-
   }
 
+  /**
+   * @description Function to initialize the observables objects
+   */
   createSubsc() {
     if (!this.passwordSub) {
       this.passwordSub = this.registerForm.get('password').valueChanges
@@ -52,8 +56,12 @@ export class RegisterComponent implements OnInit {
           distinctUntilChanged()
         ).subscribe(verifPassword => {
           this.verifyPasswordF(this.registerForm.get('password').value, verifPassword)
-        })
+        });
     }
+
+    this._authStore.select('loading').subscribe(loading => {
+      this.isLoading = loading;
+    });
   }
 
   initializeForm() {
@@ -68,15 +76,20 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  /**
+   * @description register new user, validating if user exists or not
+   */
   register() {
     if (this.registerForm.valid) {
       const userData = this.registerForm.getRawValue();
+      this._authStore.dispatch(setIsLoading({ loading: true }))
       this._userService.registerUser(userData)
         .then(resp => {
           this._messageService.registerMessage(resp);
+          this._authStore.dispatch(setIsLoading({ loading: false }))
         })
         .catch(data => {
-          // this._authStore.dispatch(stopLoading())
+          this._authStore.dispatch(setIsLoading({ loading: false }))
           this._messageService.registerMessage(data);
         });
     } else {
@@ -85,7 +98,13 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  verifyPasswordF(password, verifyPassword) {
+  /**
+   * @description Compare the main password and the confirmation password,
+   * both should match
+   * @param password It's the user password
+   * @param verifyPassword It's the confirmation password
+   */
+  verifyPasswordF(password: string, verifyPassword: string) {
     if (password && verifyPassword) {
       if (password !== verifyPassword) {
         this.registerForm.get('verifyPassword').setErrors({ 'notMatch': true });
@@ -98,6 +117,11 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  /**
+   *
+   * @param field It's the field name
+   * @returns error message referents to current invalid reason.
+   */
   getError(field: string) {
     return this._formService.getError(field, this.registerForm);
   }

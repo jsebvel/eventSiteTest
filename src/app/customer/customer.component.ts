@@ -50,7 +50,6 @@ export class CustomerComponent implements OnInit {
   initForm() {
     this.mainForm.addControl('customerForm', this._formBuilder.group([]));
     this.customerForm = this.mainForm.get('customerForm') as FormGroup;
-
     this.customerForm.addControl('name', new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)])));
     this.customerForm.addControl('service_delivery', new FormControl('', Validators.compose([])));
     this.customerForm.addControl('service_take_away', new FormControl('', Validators.compose([])));
@@ -65,6 +64,10 @@ export class CustomerComponent implements OnInit {
     this.customerForm.addControl('country_long_name', new FormControl('', Validators.compose([Validators.required])))
   }
 
+  /**
+   * @description This function is calle from Edition component, and it set the customer information on field
+   * to edit it or delete customer
+   */
   createForm() {
     this.customerForm = this._formBuilder.group({
       'name': [this.item.name, Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -80,14 +83,17 @@ export class CustomerComponent implements OnInit {
       'city_long_name': [this.item.city_long_name, Validators.compose([Validators.required])],
       'country_long_name': [this.item.country_long_name, Validators.compose([Validators.required])],
     });
-    const locationSelect: Location = ({latitude: this.item.latitude, longitude: this.item.longitude}) ;
+    const locationSelect: Location = ({ latitude: this.item.latitude, longitude: this.item.longitude });
     this.onLocationSelected(locationSelect)
   }
 
-
+  /**
+   * @description Return patterns to use them in Validation fields
+   */
   getAllPatters() {
     this.patterns = this._formService.getAllPatterns();
   }
+
   public handleAddressChange(address: any) {
     console.log(address)
   }
@@ -122,10 +128,10 @@ export class CustomerComponent implements OnInit {
     this.longitude = longitude;
   }
 
-  onGermanAddressMapped($event) {
-    console.log('onGermanAddressMapped', $event);
-  }
-
+  /**
+   * @description Get the geocoder response and extract city name
+   * @returns string with city name
+   */
   getCity(googleResponse) {
     return googleResponse.find(city => {
       if (city.types[0] == 'locality') {
@@ -134,6 +140,10 @@ export class CustomerComponent implements OnInit {
     });
   }
 
+    /**
+   * @description Get the geocoder response and extract country name
+   * @returns string with city name
+   */
   getCountry(googleResponse) {
     return googleResponse.find(city => {
       if (city.types[0] == 'country') {
@@ -146,11 +156,18 @@ export class CustomerComponent implements OnInit {
     return this._formService.getError(fieldName, this.customerForm);
   }
 
+  /**
+   * @description Update customer information from edition
+   * @param item It's the customer information send from Edition component
+   */
   updateProduct(item) {
     const newFOrm = this.customerForm.getRawValue();
-    this._userService.updateInfo(newFOrm, item.id);
+    this._userService.updateCustomerInfo(newFOrm, item.id);
   }
-
+/**
+ * @description Deletes the specified customer
+ * @param item It's the customer information send from Edition component
+ */
   deleteProduct(item) {
     this._userService.deleteCustomer(item.id);
   }

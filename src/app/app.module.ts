@@ -12,7 +12,6 @@ import { CustomerComponent } from './customer/customer.component';
 import { LayoutComponent } from './layout/layout.component';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
-import { LocationDataComponent } from './location-data/location-data.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { AngularFireModule } from '@angular/fire';
@@ -30,7 +29,6 @@ import { setIsloading } from './auth/authStore/authStore.reducer';
     UserComponent,
     CustomerComponent,
     LayoutComponent,
-    LocationDataComponent,
     EditionComponentComponent,
     RegisterComponent,
     LoginComponent
