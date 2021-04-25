@@ -6,13 +6,16 @@ import { LoginComponent } from './auth/login/login.component';
 import { UserComponent } from './user/user.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './services/auth/auth.guard';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 const routes: Routes = [
 
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'create', component: LayoutComponent, canActivate: [AuthGuard] },
-  { path: 'edition', component: EditionComponentComponent, canActivate: [AuthGuard] }
+  { path: 'edition', component: EditionComponentComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
