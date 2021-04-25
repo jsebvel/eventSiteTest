@@ -1,9 +1,12 @@
 <div class="row d-flex justify-content-center">
-  <div style="width: 50%; height: 50;">
+  <div style="width: 50%;">
     <mat-card class="example-card mat-elevation-z8" style="margin-top: 30%;">
       <form [formGroup]="loginForm">
-        <mat-card-header>
-          <mat-card-title>Iniciar sesión</mat-card-title>
+        <mat-card-header class="row justify-content-center" style="margin-top: 1em;">
+          <mat-card-title class="col-12">¡Bienvenido a EventsiteTest!</mat-card-title>
+        </mat-card-header>
+        <mat-card-header class="row">
+          <mat-card-title class="col-12 login-label" style="margin-top: 1.5em;">Iniciar sesión</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="row">
@@ -24,15 +27,18 @@
           </div>
         </mat-card-content>
       </form>
-      <mat-card-actions class=" d-flex justify-content-center">
-        <div class=" row d-flex justify-content-center">
-          <button mat-stroked-button color="accent" (click)="login()">Iniciar sesión</button>
+      <mat-card-actions class="row d-flex justify-content-center">
+        <div class="">
+          <div class="col-12">
+            <button mat-stroked-button color="accent" (click)="login()">Iniciar sesión</button>
+          </div>
+          <div class="col-12" style="margin-top: 1em;">
+            <ng-container *ngIf="isLoading">
+              <mat-spinner diameter="30" style="margin-left: 50px;"></mat-spinner>
+            </ng-container>
+
+          </div>
         </div>
-        <br>
-        <br>
-        <ng-container *ngIf="isLoading" class="d-flex justify-content-center">
-          <mat-spinner diameter="30" style="margin-left: 50px;"></mat-spinner>
-        </ng-container>
       </mat-card-actions>
       <mat-card-actions class=" d-flex justify-content-center">
         <a routerLink="/register">Registrarme</a>

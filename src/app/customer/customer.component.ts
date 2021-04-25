@@ -102,33 +102,12 @@ export class CustomerComponent implements OnInit {
   }
 
   public handleAddressChange(address: any) {
-    console.log(address)
-    // const currentAdd = {
-    //   latitude : address.geometry.location.lat(),
-    //   longitude : address.geometry.location.lng(),
-    // }
     this.geocodeAddress(address.geometry.location.lat(), address.geometry.location.lng())
   }
 
-  // onAutocompleteSelected(result) {
-  //   this.customerForm.get('address').setValue(result.name);
-  //   this.customerForm.get('address').updateValueAndValidity();
-  //   console.log('onAutocompleteSelected: ', result);
-  //       // const currentAdd = {
-  //   //   latitude : address.geometry.location.lat(),
-  //   //   longitude : address.geometry.location.lng(),
-  //   // }
-  //   this.geocodeAddress(result.geometry.location.lat(), result.geometry.location.lng() )
-  // }
-
-  // onLocationSelected(locationSelec: Location) {
-  //   console.log('onLocationSelected: ', locationSelec);
-  //   this.customerForm.get('latitude').setValue(locationSelec.latitude);
-  //   this.customerForm.get('longitude').setValue(locationSelec.longitude);
-  //   this.geocodeAddress(locationSelec.latitude, locationSelec.longitude);
-  // }
-
   geocodeAddress(latitude, longitude) {
+    this.customerForm.get('latitude').setValue(latitude);
+    this.customerForm.get('longitude').setValue(longitude);
     const geocoder = new google.maps.Geocoder();
     let latlng = new google.maps.LatLng(latitude, longitude);
     geocoder.geocode({ location: latlng }, (result, status) => {
@@ -151,7 +130,7 @@ export class CustomerComponent implements OnInit {
    */
   getCity(googleResponse) {
     return googleResponse.find(city => {
-      if (city.types[0] == 'locality') {
+      if (city.types[0] == 'locality' || (city.types[0] == 'administrative_area_level_2' && city.types[1] == 'political')) {
         return city.long_name;
       }
     });
