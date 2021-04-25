@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .then(loginResponse => {
           this._authStore.dispatch(setIsLoading({ loading: false }))
           this._userRDX.dispatch(updateUserId({ id: loginResponse.user.uid }))
+          localStorage.setItem('userId', loginResponse.user.uid);
           this._messaService.loginMessages(loginResponse);
           this.router.navigate(['create']);
         })
@@ -96,7 +97,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   verifyLogin() {
-    this.loginSubscription?.unsubscribe()
+    if (localStorage.getItem('userId')) {
+      this.router.navigate(['create']);
+    }
   }
 
 

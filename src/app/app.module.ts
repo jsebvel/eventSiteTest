@@ -22,6 +22,7 @@ import { EditionComponentComponent } from './edition-component/edition-component
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { setIsloading } from './auth/authStore/authStore.reducer';
+import { SharedModule } from './shared/shared.module'
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { setIsloading } from './auth/authStore/authStore.reducer';
     MatButtonModule,
     AngularFireModule.initializeApp(environment.firebase),
     StoreModule.forRoot({ id: updateId, loading: setIsloading }),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

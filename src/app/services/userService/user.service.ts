@@ -46,14 +46,14 @@ export class UserService {
 
 
   async createUser(userData) {
-    const currentUser = await this._fireStore.doc(`${this.userId}/user`).collection('users').add({ ...userData });
+    const currentUser = await this._fireStore.doc(`${localStorage.getItem('userId')}/user`).collection('users').add({ ...userData });
     this._userRDX.dispatch(updateUserId({ id: currentUser.id }));
     this.userId = currentUser.id;
     console.log(currentUser);
   }
 
   async createCustomer(customerData) {
-    const currentObjectId = await this._fireStore.doc(`${this.userId}/customer`).collection('customers').add({ ...customerData });
+    const currentObjectId = await this._fireStore.doc(`${localStorage.getItem('userId')}/customer`).collection('customers').add({ ...customerData });
     if (currentObjectId.id) {
       this._messageService.customerActions('success');
     }
@@ -65,7 +65,7 @@ export class UserService {
    */
   getCustomers() {
     try {
-      const data = this._fireStore.doc(`${this.userId}/customer`).collection('customers')
+      const data = this._fireStore.doc(`${localStorage.getItem('userId')}/customer`).collection('customers')
       const ids = data.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
@@ -98,12 +98,13 @@ export class UserService {
    * @returns the user data from current user
    */
   getUserData() {
-    return this._fireStore.doc(`${this.userId}/user`)
+    return this._fireStore.doc(`${localStorage.getItem('userId')}/user`)
   }
 
   signOut() {
     this._userRDX.dispatch(updateUserId({id:''}))
     this.auth.signOut();
+    localStorage.clear();
   }
 
   /**
@@ -112,7 +113,7 @@ export class UserService {
    * @param id Id corresponding to customer to update
    */
   updateCustomerInfo(customer, id) {
-    this._fireStore.doc(`${this.userId}/customer/customers/${id}`).update({ ...customer });
+    this._fireStore.doc(`${localStorage.getItem('userId')}/customer/customers/${id}`).update({ ...customer });
     this._messageService.customerActions('update');
   }
 
@@ -121,7 +122,7 @@ export class UserService {
    * @param id  Id corresponding to customer to update
    */
   deleteCustomer(id) {
-    const resp = this._fireStore.doc(`${this.userId}/customer/customers/${id}`).delete();
+    const resp = this._fireStore.doc(`${localStorage.getItem('userId')}/customer/customers/${id}`).delete();
     if (resp) {
       this._messageService.customerActions('delete');
     }

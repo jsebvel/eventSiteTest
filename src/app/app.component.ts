@@ -11,10 +11,10 @@ import { IdState } from './user/userRedux/user.reducer';
 })
 export class AppComponent {
   title = 'eventSiteTest';
+  localUserId;
   userId;
   constructor(
-    private _userService: UserService,
-    private _router: Router,
+
     private _userRDX: Store<IdState>,
   ) {
     this._userRDX.select('id').subscribe(userId => {
@@ -22,17 +22,6 @@ export class AppComponent {
     })
 
   }
-  logout() {
-    this._userService.signOut();
-    this._router.navigate(['']);
-  }
 
-  goEdit() {
-    this._router.navigate(['edition'])
-  }
-
-  goCreate() {
-    this._router.navigate(['create']);
-  }
 
 }

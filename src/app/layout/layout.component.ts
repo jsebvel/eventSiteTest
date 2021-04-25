@@ -9,6 +9,7 @@ import { IdState } from '../user/userRedux/user.reducer';
 import { Router } from '@angular/router';
 import { authStore } from '../auth/authStore/authStore.reducer';
 import { setIsLoading } from '../auth/authStore/authStore.actions';
+import { MessagesService } from '../services/messageService/message.service';
 
 @Component({
   selector: 'app-layout',
@@ -22,13 +23,15 @@ export class LayoutComponent implements OnInit {
   location: Location;
   userId;
   isLoading = false;
+  localUserId = localStorage.getItem('userId');
 
   constructor(
     private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _userRDX: Store<IdState>,
     private _router: Router,
-    private _authStore: Store<authStore>
+    private _authStore: Store<authStore>,
+    private _messageService: MessagesService
   ) { }
 
   ngOnInit(): void {
@@ -53,11 +56,17 @@ export class LayoutComponent implements OnInit {
    * @description Get the custoer info from main form and send it to create customer.
    */
   async createForm() {
-    this._authStore.dispatch(setIsLoading({ loading: true }));
     const customerForm = this.mainForm.get('customerForm') as FormGroup;
-    this.customer = customerForm.getRawValue();
-    const customerResponse = await this._userService.createCustomer(this.customer);
-    this._authStore.dispatch(setIsLoading({ loading: false }));
+    if (customerForm.valid) {
+      this._authStore.dispatch(setIsLoading({ loading: true }));
+      this.customer = customerForm.getRawValue();
+      const customerResponse = await this._userService.createCustomer(this.customer);
+      this._authStore.dispatch(setIsLoading({ loading: false }));
+      customerForm.reset();
+    } else {
+      customerForm.markAllAsTouched();
+      this._messageService.errorMessage();
+    }
   }
 
   logout() {

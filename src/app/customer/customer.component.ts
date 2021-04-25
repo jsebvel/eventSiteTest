@@ -19,7 +19,6 @@ export class CustomerComponent implements OnInit {
   public zoom: number;
   public latitude: number;
   public longitude: number;
-  public selectedAddress: PlaceResult;
   patterns;
   constructor(
     private _formBuilder: FormBuilder,
@@ -140,10 +139,10 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-    /**
-   * @description Get the geocoder response and extract country name
-   * @returns string with city name
-   */
+  /**
+ * @description Get the geocoder response and extract country name
+ * @returns string with city name
+ */
   getCountry(googleResponse) {
     return googleResponse.find(city => {
       if (city.types[0] == 'country') {
@@ -164,10 +163,10 @@ export class CustomerComponent implements OnInit {
     const newFOrm = this.customerForm.getRawValue();
     this._userService.updateCustomerInfo(newFOrm, item.id);
   }
-/**
- * @description Deletes the specified customer
- * @param item It's the customer information send from Edition component
- */
+  /**
+   * @description Deletes the specified customer
+   * @param item It's the customer information send from Edition component
+   */
   deleteProduct(item) {
     this._userService.deleteCustomer(item.id);
   }

@@ -104,13 +104,9 @@ export class MessagesService {
    * @description show an error message when ca get any info from firebase
    */
   errorMessage() {
-    Swal.fire({
-      icon: 'error',
-      text: 'Lo sentimos, ha ocurrido un error, por favor inicia sesión nuevamente'
-    }).then(data => {
-      if (data.isConfirmed) {
-        this._router.navigate(['']);
-      }
+    swal.fire({
+      icon: 'warning',
+      text: 'Por favor verifica los campos en rojo'
     })
   }
 }
