@@ -108,10 +108,17 @@
       </mat-form-field>
 
       <label class="col-12"><strong>Datos de ubicación</strong></label>
-      <mat-form-field appearance="outline" class="col-6">
+      <!-- <mat-form-field appearance="outline" class="col-6">
         <mat-label>Dirección</mat-label>
         <input matInput matGoogleMapsAutocomplete (onAutocompleteSelected)="onAutocompleteSelected($event)"
           (onLocationSelected)="onLocationSelected($event)" formControlName="address">
+      </mat-form-field> -->
+
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>Dirección</mat-label>
+        <input matInput ngx-google-places-autocomplete #placesRef="ngx-places" [options]="options"
+          (onAddressChange)="handleAddressChange($event)" formControlName="address" />
       </mat-form-field>
 
 

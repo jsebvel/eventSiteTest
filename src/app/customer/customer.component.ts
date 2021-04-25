@@ -1,9 +1,10 @@
 import { Location, Appearance } from '@angular-material-extensions/google-maps-autocomplete';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../services/formService/form.service';
 import { UserService } from '../services/userService/user.service';
 import PlaceResult = google.maps.places.PlaceResult;
+import { GooglePlaceDirective } from "node_modules/ngx-google-places-autocomplete/ngx-google-places-autocomplete.directive";
 
 
 @Component({
@@ -11,7 +12,9 @@ import PlaceResult = google.maps.places.PlaceResult;
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
+
 export class CustomerComponent implements OnInit {
+  @ViewChild("placesRef") placesRef: GooglePlaceDirective;
   @Input() mainForm;
   @Input() item;
   customerForm: FormGroup;
@@ -19,7 +22,13 @@ export class CustomerComponent implements OnInit {
   public zoom: number;
   public latitude: number;
   public longitude: number;
+  geocoder = new google.maps.Geocoder();
   patterns;
+  options = {
+    componentRestrictions: { country: "us" },
+  };
+
+
   constructor(
     private _formBuilder: FormBuilder,
     private _formService: FormService,
@@ -82,8 +91,7 @@ export class CustomerComponent implements OnInit {
       'city_long_name': [this.item.city_long_name, Validators.compose([Validators.required])],
       'country_long_name': [this.item.country_long_name, Validators.compose([Validators.required])],
     });
-    const locationSelect: Location = ({ latitude: this.item.latitude, longitude: this.item.longitude });
-    this.onLocationSelected(locationSelect)
+    // const locationSelect: Location = ({ latitude: this.item.latitude, longitude: this.item.longitude });
   }
 
   /**
@@ -95,20 +103,30 @@ export class CustomerComponent implements OnInit {
 
   public handleAddressChange(address: any) {
     console.log(address)
+    // const currentAdd = {
+    //   latitude : address.geometry.location.lat(),
+    //   longitude : address.geometry.location.lng(),
+    // }
+    this.geocodeAddress(address.geometry.location.lat(), address.geometry.location.lng())
   }
 
-  onAutocompleteSelected(result: PlaceResult) {
-    this.customerForm.get('address').setValue(result.name);
-    this.customerForm.get('address').updateValueAndValidity();
-    console.log('onAutocompleteSelected: ', result);
-  }
+  // onAutocompleteSelected(result) {
+  //   this.customerForm.get('address').setValue(result.name);
+  //   this.customerForm.get('address').updateValueAndValidity();
+  //   console.log('onAutocompleteSelected: ', result);
+  //       // const currentAdd = {
+  //   //   latitude : address.geometry.location.lat(),
+  //   //   longitude : address.geometry.location.lng(),
+  //   // }
+  //   this.geocodeAddress(result.geometry.location.lat(), result.geometry.location.lng() )
+  // }
 
-  onLocationSelected(locationSelec: Location) {
-    console.log('onLocationSelected: ', locationSelec);
-    this.customerForm.get('latitude').setValue(locationSelec.latitude);
-    this.customerForm.get('longitude').setValue(locationSelec.longitude);
-    this.geocodeAddress(locationSelec.latitude, locationSelec.longitude);
-  }
+  // onLocationSelected(locationSelec: Location) {
+  //   console.log('onLocationSelected: ', locationSelec);
+  //   this.customerForm.get('latitude').setValue(locationSelec.latitude);
+  //   this.customerForm.get('longitude').setValue(locationSelec.longitude);
+  //   this.geocodeAddress(locationSelec.latitude, locationSelec.longitude);
+  // }
 
   geocodeAddress(latitude, longitude) {
     const geocoder = new google.maps.Geocoder();

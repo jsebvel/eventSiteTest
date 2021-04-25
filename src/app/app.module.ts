@@ -23,6 +23,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { setIsloading } from './auth/authStore/authStore.reducer';
 import { SharedModule } from './shared/shared.module'
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { SharedModule } from './shared/shared.module'
     MatButtonModule,
     AngularFireModule.initializeApp(environment.firebase),
     StoreModule.forRoot({ id: updateId, loading: setIsloading }),
-    SharedModule
+    SharedModule,
+    GooglePlaceModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
