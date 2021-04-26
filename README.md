@@ -1,6 +1,8 @@
 # EventSiteTest
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.0.
+
+## Important APIKEY
+The field address on customer form does not work on prodution becouse google api key setting. To test this field, you should run the project on localhost
 
 ## Install packages
 Before run this project, run `npm install`.
