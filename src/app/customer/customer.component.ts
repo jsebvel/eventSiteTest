@@ -25,6 +25,11 @@ export class CustomerComponent implements OnInit {
   geocoder = new google.maps.Geocoder();
   patterns;
   options = {
+    origin: undefined,
+    bounds: undefined,
+    fields: undefined,
+    strictBounds: false,
+    types: undefined,
     componentRestrictions: { country: "co" },
   };
 
