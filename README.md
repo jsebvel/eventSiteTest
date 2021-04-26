@@ -32,3 +32,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Material module
 Get and exports the material components used in the project.
+
+## Production url
+`https://eventsitetest-701f3.web.app/`
