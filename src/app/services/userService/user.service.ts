@@ -28,6 +28,7 @@ export class UserService {
 
 
   registerUser(userData) {
+    delete userData.verifyPassword
     const { email, password } = userData;
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
@@ -42,17 +43,6 @@ export class UserService {
     const currentUser = this.auth.signInWithEmailAndPassword(email, password);
     return currentUser;
   }
-
-  /**
-   *
-   * @param userData the user info to create the register on firebase
-   * @description Create the user credential and user data when register
-   */
-  // async createUser(userData) {
-  //   const currentUser = await this._fireStore.doc(`${sessionStorage.getItem('userId')}/user`).collection('users').add({ ...userData });
-  //   this._userRDX.dispatch(updateUserId({ id: currentUser.id }));
-  //   this.userId = currentUser.id;
-  // }
 
   async createCustomer(customerData) {
     const currentObjectId = await this._fireStore.doc(`${sessionStorage.getItem('userId')}/customer`).collection('customers').add({ ...customerData });
