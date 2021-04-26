@@ -17,19 +17,22 @@ export class NotFoundComponent implements OnInit {
     this.redirectWhenRouteNotExists();
   }
 
+  /**
+   * @description verify if requested page exists
+   * and redirect according to if user is login
+   */
   redirectWhenRouteNotExists() {
-    const route = localStorage.getItem('userId')
+    const route = sessionStorage.getItem('userId')
       ? 'create'
       : '';
-
-      swal.fire({
-        title: 'Paǵina no encontrada',
-        text: 'Lo sentimos, no pudimos encontrar esta página'
-      }).then(resp => {
-          if(resp.isConfirmed) {
-            this._router.navigate([route]);
-          }
-      });
+    swal.fire({
+      title: 'Paǵina no encontrada',
+      text: 'Lo sentimos, no pudimos encontrar esta página'
+    }).then(resp => {
+      if (resp.isConfirmed) {
+        this._router.navigate([route]);
+      }
+    });
   }
 
 }

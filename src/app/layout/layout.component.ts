@@ -23,7 +23,7 @@ export class LayoutComponent implements OnInit {
   location: Location;
   userId;
   isLoading = false;
-  localUserId = localStorage.getItem('userId');
+  localUserId = sessionStorage.getItem('userId');
 
   constructor(
     private _formBuilder: FormBuilder,

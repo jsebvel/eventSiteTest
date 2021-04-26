@@ -118,7 +118,8 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   *
+   * @description Get the message error according to the
+   * field invalid reason
    * @param field It's the field name
    * @returns error message referents to current invalid reason.
    */

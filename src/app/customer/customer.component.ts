@@ -51,7 +51,6 @@ export class CustomerComponent implements OnInit {
         }
         this.initForm();
       }
-
     }
   }
 
@@ -101,10 +100,19 @@ export class CustomerComponent implements OnInit {
     this.patterns = this._formService.getAllPatterns();
   }
 
+  /**
+   *
+   * @param address Handle the current selected address to geocode it.
+   */
   public handleAddressChange(address: any) {
     this.geocodeAddress(address.geometry.location.lat(), address.geometry.location.lng())
   }
 
+  /**
+   * @description get the address by longitude and latitude with google tools
+   * and set the values 'latitude' and 'longitude' to the
+   * current customer to save the info
+   */
   geocodeAddress(latitude, longitude) {
     this.customerForm.get('latitude').setValue(latitude);
     this.customerForm.get('longitude').setValue(longitude);
@@ -148,6 +156,11 @@ export class CustomerComponent implements OnInit {
     });
   }
 
+  /**
+   * @description
+   * @param { string } fieldName the name of the field in form to evaluate it.
+   * @returns { string } returns the message according with the field error (required, min lenght...)
+   */
   getErrors(fieldName: string) {
     return this._formService.getError(fieldName, this.customerForm);
   }

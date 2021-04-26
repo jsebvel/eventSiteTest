@@ -54,14 +54,26 @@ export class UserComponent implements OnInit {
     this.userForm.addControl('phone', new FormControl('', Validators.compose([Validators.required, Validators.min(6)])))
   }
 
+  /**
+   * @description get the patterns to use them in validators.pattern
+   */
   getAllPatters() {
     this.patterns = this._formService.getAllPatterns();
   }
 
+  /**
+   * @description Get the message error according to the
+   * field invalid reason
+   * @param field It's the field name
+   * @returns error message referents to current invalid reason.
+   */
   getErrors(fieldName: string) {
     return this._formService.getError(fieldName, this.userForm);
   }
 
+  /**
+   * @description Get the current user data and set information to form to show it
+   */
   setValues() {
     if (this.userData) {
       this.userForm.get('first_name').setValue(this.userData.name);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UserService } from './services/userService/user.service';
@@ -14,7 +14,6 @@ export class AppComponent {
   localUserId;
   userId;
   constructor(
-
     private _userRDX: Store<IdState>,
   ) {
     this._userRDX.select('id').subscribe(userId => {
@@ -22,6 +21,5 @@ export class AppComponent {
     })
 
   }
-
 
 }

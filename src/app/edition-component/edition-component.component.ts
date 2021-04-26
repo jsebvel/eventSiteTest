@@ -20,7 +20,7 @@ export class EditionComponentComponent implements OnInit {
     this.getCustomerList();
   }
   /**
-   * @description get the customer according actual user
+   * @description get the customer list according actual user
    */
   getCustomerList() {
     this._userService.getCustomers().subscribe(customers => {
